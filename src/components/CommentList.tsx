@@ -1,4 +1,4 @@
-import { HStack, Box, Avatar, Heading, Text } from "@chakra-ui/react";
+import { HStack, Box, Avatar, Heading, Text, WrapItem } from "@chakra-ui/react";
 
 import { IComment, IUser } from "../models";
 import { primaryColor } from "../theme";
@@ -6,7 +6,7 @@ import { primaryColor } from "../theme";
 // ダミーデータ
 const user1: IUser = {
     displayName: "testuser1",
-    photoURL: "https://source.unsplash.com/random/32x32",
+    photoURL: "https://scrapbox.io/files/63c27922300b77001e1a30ae.jpg",
 };
 const comments: IComment[] = [
     {
@@ -46,7 +46,7 @@ const Comment = ({ comment }: { comment: IComment }) => (
     <Box bg="white" shadow="md" p={4} rounded="md">
         <HStack mb={2}>
             <Avatar
-                size="sm"
+                size="xs"
                 src={comment.user.photoURL ? comment.user.photoURL : undefined}
                 bg={primaryColor}
             />
