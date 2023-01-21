@@ -23,7 +23,7 @@ REACT_APP_MEASUREMENTID=xxxxxx
 yarn start
 ```
 
-## オリジナルからの変更点()
+## オリジナルからの変更点
 
 -   React,Firebase 関連パッケージの最新バージョン(2023/01/21)に対応
 
