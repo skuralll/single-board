@@ -9,7 +9,7 @@ const uiConfig = {
     signInSuccessUrl: "/",
     signInOptions: [
         GoogleAuthProvider.PROVIDER_ID,
-        EmailAuthProvider.PROVIDER_ID,
+        //EmailAuthProvider.PROVIDER_ID,
     ],
 };
 
