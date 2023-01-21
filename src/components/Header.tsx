@@ -14,7 +14,7 @@ export const Header = () => {
                 <Container px={2} maxWidth="container.md">
                     <Flex alignItems="center">
                         <Heading color={primaryTextColor} size="sm">
-                            <Link to="/">Single Board PR-TEST</Link>
+                            <Link to="/">Single Board</Link>
                         </Heading>
                         <Spacer />
                         {user ? (
