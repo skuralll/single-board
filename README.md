@@ -28,6 +28,9 @@ yarn start
 -   React,Firebase 関連パッケージの最新バージョン(2023/01/21)に対応
 -   投稿削除ボタンの追加
 
+## 注意
+新たなバージョンがデプロイされているにも関わらず古いページが表示される場合はキャッシュをクリアしてください。
+
 ## 参考
 
 参考サイト: [React + TypeScript + Firebase で認証付きの簡単な掲示板を作ろう](https://shuent.github.io/blog/first-react-app-single-board/)
