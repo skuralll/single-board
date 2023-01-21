@@ -1,7 +1,7 @@
 # Single-Board
 
 シンプルな掲示板  
-参考サイト: [https://shuent.github.io/blog/first-react-app-single-board/](https://shuent.github.io/blog/first-react-app-single-board/)
+[動作を確認できます](https://single-board-4fdff.web.app/)
 
 ## 起動方法
 
@@ -26,3 +26,7 @@ yarn start
 ## オリジナルからの変更点()
 
 -   React,Firebase 関連パッケージの最新バージョン(2023/01/21)に対応
+
+## 参考
+
+参考サイト: [React + TypeScript + Firebase で認証付きの簡単な掲示板を作ろう](https://shuent.github.io/blog/first-react-app-single-board/)
