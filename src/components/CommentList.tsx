@@ -1,39 +1,30 @@
 import { HStack, Box, Avatar, Heading, Text, WrapItem } from "@chakra-ui/react";
+import { useEffect } from "react";
+import { useComments } from "../contexts/commentsContext";
 
 import { IComment, IUser } from "../models";
 import { primaryColor } from "../theme";
-
-// ダミーデータ
-const user1: IUser = {
-    displayName: "testuser1",
-    photoURL: "https://scrapbox.io/files/63c27922300b77001e1a30ae.jpg",
-};
-const comments: IComment[] = [
-    {
-        user: user1,
-        content: "first comment ss",
-        createdAt: new Date(),
-        id: "comment1id",
-    },
-    {
-        user: user1,
-        content: "元気ですか",
-        createdAt: new Date(),
-        id: "comment2id",
-    },
-];
+import { getComments } from "../api/commentsApi";
 
 export const CommentList = () => {
+    const { state: comments, dispatch } = useComments();
+
+    useEffect(() => {
+        getComments().then((data) => {
+            dispatch({ type: "SET_COMMENTS", comments: data });
+        });
+    }, [dispatch]);
+
     return (
         <>
             <Heading mt={4} mb={2} size="md" color="gray.600">
                 Posted Comments
             </Heading>
             <ul>
-                {comments.length === 0 ? (
+                {comments.comments.length === 0 ? (
                     <p>No Post</p>
                 ) : (
-                    comments.map((comment) => (
+                    comments.comments.map((comment) => (
                         <Comment key={comment.id} comment={comment} />
                     ))
                 )}

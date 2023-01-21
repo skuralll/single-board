@@ -3,7 +3,7 @@ export type IUser = {
     displayName: string | null | undefined;
     photoURL: string | null | undefined;
 };
-//発言モデル
+// 発言モデル
 export type IComment = {
     user: IUser;
     content: string;
