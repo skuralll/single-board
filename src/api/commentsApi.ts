@@ -1,4 +1,11 @@
-import { collection, getDocs, addDoc, Timestamp } from "firebase/firestore";
+import {
+    collection,
+    getDocs,
+    deleteDoc,
+    addDoc,
+    Timestamp,
+    doc,
+} from "firebase/firestore";
 import { firedb } from "../firebase";
 import { IComment, ICommentAdd } from "../models";
 import { getAuth } from "firebase/auth";
@@ -25,5 +32,14 @@ export const addComment = async (comment: ICommentAdd) => {
         });
     } catch (e) {
         console.error("Error adding document: ", e);
+    }
+};
+
+//DBからコメントを削除する
+export const deleteComment = async (id: string) => {
+    try {
+        await deleteDoc(doc(firedb, "comments", id));
+    } catch (e) {
+        console.error("Error deleting document: ", e);
     }
 };

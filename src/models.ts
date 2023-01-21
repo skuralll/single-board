@@ -1,5 +1,6 @@
 // ユーザーモデル
 export type IUser = {
+    uid: string | null | undefined;
     displayName: string | null | undefined;
     photoURL: string | null | undefined;
 };
