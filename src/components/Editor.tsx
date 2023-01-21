@@ -15,6 +15,7 @@ export const Editor = () => {
         if (content !== "" && user) {
             const toPost: ICommentAdd = {
                 user: {
+                    uid: user.uid,
                     displayName: user.displayName,
                     photoURL: user.photoURL,
                 },
