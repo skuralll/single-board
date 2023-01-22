@@ -28,6 +28,7 @@ export const Editor = () => {
                     ...toPost,
                     createdAt: new Date(),
                     id: Date(),
+                    favorites: [],
                 },
             });
         } else if (!user) {

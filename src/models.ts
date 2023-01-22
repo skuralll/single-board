@@ -10,8 +10,10 @@ export type IComment = {
     content: string;
     createdAt: Date;
     id: string;
+    favorites: string[]; // いいねしたユーザーのuidの配列
 };
-// ?
+
+// 発言追加モデル
 export type ICommentAdd = {
     user: IUser;
     content: string;

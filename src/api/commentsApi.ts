@@ -18,6 +18,7 @@ export const getComments = async () => {
         content: doc.data().content,
         createdAt: doc.data().createdAt.toDate(),
         id: doc.id,
+        favorites: doc.data().favorites,
     }));
     return data;
 };
