@@ -15,7 +15,7 @@ import { useComments } from "../contexts/commentsContext";
 import { useAuth } from "../contexts/authContext";
 import { IComment } from "../models";
 import { primaryColor } from "../theme";
-import { getComments, deleteComment } from "../api/commentsApi";
+import { getComments, deleteComment, updateComment } from "../api/commentsApi";
 
 export const CommentList = () => {
     const { state: comments, dispatch } = useComments();
@@ -69,7 +69,7 @@ const Comment = ({ comment }: { comment: IComment }) => (
             <DeleteButton comment={comment} />
         </Flex>
         <Text>{comment.content}</Text>
-        <Flex>
+        <Flex marginRight={3}>
             <Spacer />
             <FavoriteButton comment={comment} />
         </Flex>
@@ -111,20 +111,43 @@ const DeleteButton = ({ comment }: { comment: IComment }) => {
 
 // ファボボタン
 const FavoriteButton = ({ comment }: { comment: IComment }) => {
+    const { user } = useAuth();
+    const { dispatch } = useComments();
+
     const handleFavClick = () => {
-        alert("いいね！");
+        if (!user) return;
+        // 既にファボしていているか
+        if (comment.favorites.includes(user.uid)) {
+            comment.favorites = comment.favorites.filter(
+                (id) => id !== user.uid
+            );
+        } else {
+            // ファボする
+            comment.favorites.push(user.uid);
+        }
+        //値を更新
+        updateComment(comment);
+        dispatch({
+            type: "UPDATE_COMMENT",
+            comment: comment,
+        });
     };
 
     return (
         <Center color="gray.600">
             <IconButton
                 aria-label="Favorite "
-                size="sm"
+                color={
+                    comment.favorites.includes(user?.uid || "")
+                        ? "yellow.400"
+                        : "gray.600"
+                }
+                size="md"
                 variant="ghost"
                 icon={<StarIcon />}
                 onClick={handleFavClick}
             ></IconButton>
-            <Text fontSize="lg">0</Text>
+            <Text fontSize="lg">{comment.favorites.length}</Text>
         </Center>
     );
 };

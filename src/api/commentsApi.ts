@@ -3,6 +3,7 @@ import {
     getDocs,
     deleteDoc,
     addDoc,
+    setDoc,
     Timestamp,
     doc,
 } from "firebase/firestore";
@@ -43,5 +44,19 @@ export const deleteComment = async (id: string) => {
         await deleteDoc(doc(firedb, "comments", id));
     } catch (e) {
         console.error("Error deleting document: ", e);
+    }
+};
+
+//DBのコメントを更新する
+export const updateComment = async (comment: IComment) => {
+    try {
+        await setDoc(doc(firedb, "comments", comment.id), {
+            user: comment.user,
+            content: comment.content,
+            createdAt: comment.createdAt,
+            favorites: comment.favorites,
+        });
+    } catch (e) {
+        console.error("Error updating document: ", e);
     }
 };
