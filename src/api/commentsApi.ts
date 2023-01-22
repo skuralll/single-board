@@ -30,6 +30,7 @@ export const addComment = async (comment: ICommentAdd) => {
             user: comment.user,
             content: comment.content,
             createdAt: Timestamp.now(),
+            favorites: [],
         });
     } catch (e) {
         console.error("Error adding document: ", e);
