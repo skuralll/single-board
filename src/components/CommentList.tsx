@@ -4,7 +4,6 @@ import {
     Avatar,
     Heading,
     Text,
-    WrapItem,
     Flex,
     Spacer,
     IconButton,
@@ -13,7 +12,7 @@ import { DeleteIcon } from "@chakra-ui/icons";
 import { useEffect } from "react";
 import { useComments } from "../contexts/commentsContext";
 import { useAuth } from "../contexts/authContext";
-import { IComment, IUser } from "../models";
+import { IComment } from "../models";
 import { primaryColor } from "../theme";
 import { getComments, deleteComment } from "../api/commentsApi";
 
@@ -44,6 +43,7 @@ export const CommentList = () => {
     );
 };
 
+//投稿
 const Comment = ({ comment }: { comment: IComment }) => (
     <Box bg="white" shadow="md" p={4} rounded="md" marginBottom="1">
         <Flex mb={5}>
