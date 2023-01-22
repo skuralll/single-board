@@ -7,8 +7,9 @@ import {
     Flex,
     Spacer,
     IconButton,
+    Center,
 } from "@chakra-ui/react";
-import { DeleteIcon } from "@chakra-ui/icons";
+import { DeleteIcon, StarIcon } from "@chakra-ui/icons";
 import { useEffect } from "react";
 import { useComments } from "../contexts/commentsContext";
 import { useAuth } from "../contexts/authContext";
@@ -60,14 +61,18 @@ const Comment = ({ comment }: { comment: IComment }) => (
                 <Heading size="sm" color="gray.700">
                     {comment.user.displayName}
                 </Heading>
+                <Text color="gray.500" mt={1} fontSize="sm" align="end">
+                    {comment.createdAt.toLocaleString()}
+                </Text>
             </HStack>
             <Spacer />
             <DeleteButton comment={comment} />
         </Flex>
         <Text>{comment.content}</Text>
-        <Text color="gray.400" mt={1} fontSize="sm" align="end">
-            {comment.createdAt.toLocaleString()}
-        </Text>
+        <Flex>
+            <Spacer />
+            <FavoriteButton comment={comment} />
+        </Flex>
     </Box>
 );
 
@@ -94,11 +99,32 @@ const DeleteButton = ({ comment }: { comment: IComment }) => {
         return (
             <IconButton
                 aria-label="Delete chat "
+                variant="ghost"
                 size="sm"
                 icon={<DeleteIcon />}
                 onClick={handleDelBtClick}
-            />
+            ></IconButton>
         );
     }
     return <div></div>;
+};
+
+// ファボボタン
+const FavoriteButton = ({ comment }: { comment: IComment }) => {
+    const handleFavClick = () => {
+        alert("いいね！");
+    };
+
+    return (
+        <Center color="gray.600">
+            <IconButton
+                aria-label="Favorite "
+                size="sm"
+                variant="ghost"
+                icon={<StarIcon />}
+                onClick={handleFavClick}
+            ></IconButton>
+            <Text fontSize="lg">0</Text>
+        </Center>
+    );
 };
