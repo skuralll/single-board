@@ -5,7 +5,8 @@ import { IComment } from "../models";
 export type CommentsAction =
     | { type: "SET_COMMENTS"; comments: IComment[] }
     | { type: "ADD_COMMENT"; comment: IComment }
-    | { type: "DELETE_COMMENT"; comment: IComment };
+    | { type: "DELETE_COMMENT"; comment: IComment }
+    | { type: "UPDATE_COMMENT"; comment: IComment };
 
 //コメントリストの状態
 export type CommentsState = {
@@ -31,6 +32,16 @@ export const commentsReducer = (
                 comments: state.comments.filter(
                     (comment) => comment.id !== action.comment.id
                 ),
+            };
+        case "UPDATE_COMMENT":
+            return {
+                comments: state.comments.map((comment) => {
+                    if (comment.id === action.comment.id) {
+                        return action.comment;
+                    } else {
+                        return comment;
+                    }
+                }),
             };
         default:
             return state;

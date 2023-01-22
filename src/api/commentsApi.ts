@@ -3,6 +3,7 @@ import {
     getDocs,
     deleteDoc,
     addDoc,
+    setDoc,
     Timestamp,
     doc,
 } from "firebase/firestore";
@@ -18,6 +19,7 @@ export const getComments = async () => {
         content: doc.data().content,
         createdAt: doc.data().createdAt.toDate(),
         id: doc.id,
+        favorites: doc.data().favorites,
     }));
     return data;
 };
@@ -29,6 +31,7 @@ export const addComment = async (comment: ICommentAdd) => {
             user: comment.user,
             content: comment.content,
             createdAt: Timestamp.now(),
+            favorites: [],
         });
     } catch (e) {
         console.error("Error adding document: ", e);
@@ -41,5 +44,19 @@ export const deleteComment = async (id: string) => {
         await deleteDoc(doc(firedb, "comments", id));
     } catch (e) {
         console.error("Error deleting document: ", e);
+    }
+};
+
+//DBのコメントを更新する
+export const updateComment = async (comment: IComment) => {
+    try {
+        await setDoc(doc(firedb, "comments", comment.id), {
+            user: comment.user,
+            content: comment.content,
+            createdAt: comment.createdAt,
+            favorites: comment.favorites,
+        });
+    } catch (e) {
+        console.error("Error updating document: ", e);
     }
 };

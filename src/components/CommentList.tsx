@@ -4,18 +4,18 @@ import {
     Avatar,
     Heading,
     Text,
-    WrapItem,
     Flex,
     Spacer,
     IconButton,
+    Center,
 } from "@chakra-ui/react";
-import { DeleteIcon } from "@chakra-ui/icons";
+import { DeleteIcon, StarIcon } from "@chakra-ui/icons";
 import { useEffect } from "react";
 import { useComments } from "../contexts/commentsContext";
 import { useAuth } from "../contexts/authContext";
-import { IComment, IUser } from "../models";
+import { IComment } from "../models";
 import { primaryColor } from "../theme";
-import { getComments, deleteComment } from "../api/commentsApi";
+import { getComments, deleteComment, updateComment } from "../api/commentsApi";
 
 export const CommentList = () => {
     const { state: comments, dispatch } = useComments();
@@ -44,6 +44,7 @@ export const CommentList = () => {
     );
 };
 
+//投稿
 const Comment = ({ comment }: { comment: IComment }) => (
     <Box bg="white" shadow="md" p={4} rounded="md" marginBottom="1">
         <Flex mb={5}>
@@ -60,14 +61,18 @@ const Comment = ({ comment }: { comment: IComment }) => (
                 <Heading size="sm" color="gray.700">
                     {comment.user.displayName}
                 </Heading>
+                <Text color="gray.500" mt={1} fontSize="sm" align="end">
+                    {comment.createdAt.toLocaleString()}
+                </Text>
             </HStack>
             <Spacer />
             <DeleteButton comment={comment} />
         </Flex>
         <Text>{comment.content}</Text>
-        <Text color="gray.400" mt={1} fontSize="sm" align="end">
-            {comment.createdAt.toLocaleString()}
-        </Text>
+        <Flex marginRight={3}>
+            <Spacer />
+            <FavoriteButton comment={comment} />
+        </Flex>
     </Box>
 );
 
@@ -94,11 +99,55 @@ const DeleteButton = ({ comment }: { comment: IComment }) => {
         return (
             <IconButton
                 aria-label="Delete chat "
+                variant="ghost"
                 size="sm"
                 icon={<DeleteIcon />}
                 onClick={handleDelBtClick}
-            />
+            ></IconButton>
         );
     }
     return <div></div>;
+};
+
+// ファボボタン
+const FavoriteButton = ({ comment }: { comment: IComment }) => {
+    const { user } = useAuth();
+    const { dispatch } = useComments();
+
+    const handleFavClick = () => {
+        if (!user) return;
+        // 既にファボしていているか
+        if (comment.favorites.includes(user.uid)) {
+            comment.favorites = comment.favorites.filter(
+                (id) => id !== user.uid
+            );
+        } else {
+            // ファボする
+            comment.favorites.push(user.uid);
+        }
+        //値を更新
+        updateComment(comment);
+        dispatch({
+            type: "UPDATE_COMMENT",
+            comment: comment,
+        });
+    };
+
+    return (
+        <Center color="gray.600">
+            <IconButton
+                aria-label="Favorite "
+                color={
+                    comment.favorites.includes(user?.uid || "")
+                        ? "yellow.400"
+                        : "gray.600"
+                }
+                size="md"
+                variant="ghost"
+                icon={<StarIcon />}
+                onClick={handleFavClick}
+            ></IconButton>
+            <Text fontSize="lg">{comment.favorites.length}</Text>
+        </Center>
+    );
 };
