@@ -8,8 +8,11 @@ import {
     Spacer,
     IconButton,
     Center,
+    VStack,
+    Link,
 } from "@chakra-ui/react";
 import { DeleteIcon, StarIcon } from "@chakra-ui/icons";
+import reactStringReplace from "react-string-replace";
 import { useEffect } from "react";
 import { useComments } from "../contexts/commentsContext";
 import { useAuth } from "../contexts/authContext";
@@ -46,7 +49,7 @@ export const CommentList = () => {
 
 //投稿
 const Comment = ({ comment }: { comment: IComment }) => (
-    <Box bg="white" shadow="md" p={4} rounded="md" marginBottom="1">
+    <Box bg="white" shadow="lg" p={4} rounded="md" marginBottom="1">
         <Flex mb={5}>
             <HStack>
                 <Avatar
@@ -68,13 +71,32 @@ const Comment = ({ comment }: { comment: IComment }) => (
             <Spacer />
             <DeleteButton comment={comment} />
         </Flex>
-        <Text>{comment.content}</Text>
+        <CommentContent content={comment.content} />
         <Flex marginRight={3}>
             <Spacer />
             <FavoriteButton comment={comment} />
         </Flex>
     </Box>
 );
+
+const CommentContent = ({ content }: { content: string }) => {
+    //todo:画像の表示
+    return (
+        <VStack align="start">
+            <Text>
+                {reactStringReplace(
+                    content,
+                    /(https?:\/\/\S+)/g,
+                    (match, i) => (
+                        <Link key={i} href={match} color="blue.500">
+                            {match}
+                        </Link>
+                    )
+                )}
+            </Text>
+        </VStack>
+    );
+};
 
 // 投稿削除ボタン(ユーザー=投稿者の時のみ表示)
 const DeleteButton = ({ comment }: { comment: IComment }) => {
@@ -134,20 +156,22 @@ const FavoriteButton = ({ comment }: { comment: IComment }) => {
     };
 
     return (
-        <Center color="gray.600">
+        <Center>
             <IconButton
                 aria-label="Favorite "
                 color={
                     comment.favorites.includes(user?.uid || "")
                         ? "yellow.400"
-                        : "gray.600"
+                        : "gray.500"
                 }
                 size="md"
                 variant="ghost"
                 icon={<StarIcon />}
                 onClick={handleFavClick}
             ></IconButton>
-            <Text fontSize="lg">{comment.favorites.length}</Text>
+            <Text fontSize="lg" color="gray.500">
+                {comment.favorites.length}
+            </Text>
         </Center>
     );
 };
