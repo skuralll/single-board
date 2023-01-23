@@ -6,6 +6,8 @@ import {
     setDoc,
     Timestamp,
     doc,
+    query,
+    orderBy,
 } from "firebase/firestore";
 import { firedb } from "../firebase";
 import { IComment, ICommentAdd } from "../models";
@@ -13,7 +15,9 @@ import { getAuth } from "firebase/auth";
 
 //DBからコメントリストを取得する
 export const getComments = async () => {
-    const snapShot = await getDocs(collection(firedb, "comments"));
+    const snapShot = await getDocs(
+        query(collection(firedb, "comments"), orderBy("createdAt", "desc"))
+    );
     const data = snapShot.docs.map<IComment>((doc) => ({
         user: doc.data().user,
         content: doc.data().content,
