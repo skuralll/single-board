@@ -11,7 +11,6 @@ import {
 } from "firebase/firestore";
 import { firedb } from "../firebase";
 import { IComment, ICommentAdd } from "../models";
-import { getAuth } from "firebase/auth";
 
 //DBからコメントリストを取得する
 export const getComments = async () => {

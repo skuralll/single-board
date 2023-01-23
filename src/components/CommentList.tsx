@@ -9,7 +9,6 @@ import {
     IconButton,
     Center,
     VStack,
-    Image,
     Link,
 } from "@chakra-ui/react";
 import { DeleteIcon, StarIcon } from "@chakra-ui/icons";
@@ -20,7 +19,6 @@ import { useAuth } from "../contexts/authContext";
 import { IComment } from "../models";
 import { primaryColor } from "../theme";
 import { getComments, deleteComment, updateComment } from "../api/commentsApi";
-import { detectURLs, checkIfImageExists } from "../utils";
 
 export const CommentList = () => {
     const { state: comments, dispatch } = useComments();
