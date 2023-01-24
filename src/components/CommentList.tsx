@@ -10,6 +10,7 @@ import {
     Center,
     VStack,
     Link,
+    useToast,
 } from "@chakra-ui/react";
 import { DeleteIcon, StarIcon } from "@chakra-ui/icons";
 import reactStringReplace from "react-string-replace";
@@ -102,6 +103,7 @@ const CommentContent = ({ content }: { content: string }) => {
 const DeleteButton = ({ comment }: { comment: IComment }) => {
     const { user } = useAuth();
     const { dispatch } = useComments();
+    const toast = useToast();
 
     //クリック時の処理
     const handleDelBtClick = () => {
@@ -110,6 +112,12 @@ const DeleteButton = ({ comment }: { comment: IComment }) => {
             dispatch({
                 type: "DELETE_COMMENT",
                 comment: comment,
+            });
+            toast({
+                title: "投稿を削除しました",
+                status: "success",
+                duration: 3000,
+                isClosable: true,
             });
         } catch (e) {
             alert("delete failed");
@@ -135,9 +143,19 @@ const DeleteButton = ({ comment }: { comment: IComment }) => {
 const FavoriteButton = ({ comment }: { comment: IComment }) => {
     const { user } = useAuth();
     const { dispatch } = useComments();
+    const toast = useToast();
 
     const handleFavClick = () => {
-        if (!user) return;
+        // ログインしていない場合
+        if (!user) {
+            toast({
+                title: "ログインしてください",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            });
+            return;
+        }
         // 既にファボしていているか
         if (comment.favorites.includes(user.uid)) {
             comment.favorites = comment.favorites.filter(

@@ -1,4 +1,4 @@
-import { Button, Text, Textarea, VStack } from "@chakra-ui/react";
+import { Button, Text, Textarea, VStack, useToast } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { addComment } from "../api/commentsApi";
 import { useAuth } from "../contexts/authContext";
@@ -9,7 +9,29 @@ export const Editor = () => {
     const { user } = useAuth();
     const { dispatch } = useComments();
     const [content, setContent] = useState("");
+    const toast = useToast();
 
+    // 投稿成功時のトーストを表示する関数
+    const showPostSuccessToast = () => {
+        toast({
+            title: "新しいコメントを投稿しました！",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+        });
+    };
+
+    // ログインを求めるトーストを表示する関数
+    const showPleaseLoginToast = () => {
+        toast({
+            title: "ログインしてください",
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+        });
+    };
+
+    // Postボタンが押されたときの処理
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (content !== "" && user) {
@@ -31,11 +53,13 @@ export const Editor = () => {
                     favorites: [],
                 },
             });
+            showPostSuccessToast();
         } else if (!user) {
-            alert("Sign in first");
+            showPleaseLoginToast();
         }
         setContent("");
     };
+    // 内容画を書き換えたときの処理
     const handleChange = (e: React.FormEvent<HTMLTextAreaElement>) => {
         setContent(e.currentTarget.value);
     };

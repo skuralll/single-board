@@ -1,3 +1,5 @@
+// Reactに関係ない関数を定義する
+
 // 文章からURLを抽出する
 export function detectURLs(message: string) {
     var urlRegex = /(((https?:\/\/)|(www\.))[^\s]+)/g;
