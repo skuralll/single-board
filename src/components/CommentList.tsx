@@ -127,13 +127,15 @@ const DeleteButton = ({ comment }: { comment: IComment }) => {
     // ユーザー=投稿者の時のみ削除ボタンを表示
     if (user && user.uid === comment.user.uid) {
         return (
-            <IconButton
-                aria-label="Delete chat "
-                variant="ghost"
-                size="sm"
-                icon={<DeleteIcon />}
-                onClick={handleDelBtClick}
-            ></IconButton>
+            <>
+                <IconButton
+                    aria-label="Delete chat "
+                    variant="ghost"
+                    size="sm"
+                    icon={<DeleteIcon />}
+                    onClick={handleDelBtClick}
+                ></IconButton>
+            </>
         );
     }
     return <div></div>;
