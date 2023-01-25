@@ -11,15 +11,23 @@ import {
     VStack,
     Link,
     useToast,
+    AlertDialog,
+    AlertDialogBody,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogContent,
+    AlertDialogOverlay,
+    useDisclosure,
 } from "@chakra-ui/react";
 import { DeleteIcon, StarIcon } from "@chakra-ui/icons";
 import reactStringReplace from "react-string-replace";
-import { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useComments } from "../contexts/commentsContext";
 import { useAuth } from "../contexts/authContext";
 import { IComment } from "../models";
 import { primaryColor } from "../theme";
 import { getComments, deleteComment, updateComment } from "../api/commentsApi";
+import CustomAlertDialog from "./CustomAlertDialog";
 
 export const CommentList = () => {
     const { state: comments, dispatch } = useComments();
@@ -80,6 +88,7 @@ const Comment = ({ comment }: { comment: IComment }) => (
     </Box>
 );
 
+// コメント本文
 const CommentContent = ({ content }: { content: string }) => {
     //todo:画像の表示
     return (
@@ -104,6 +113,9 @@ const DeleteButton = ({ comment }: { comment: IComment }) => {
     const { user } = useAuth();
     const { dispatch } = useComments();
     const toast = useToast();
+    // for dialog
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const dialogRef = useRef(null);
 
     //クリック時の処理
     const handleDelBtClick = () => {
@@ -133,8 +145,19 @@ const DeleteButton = ({ comment }: { comment: IComment }) => {
                     variant="ghost"
                     size="sm"
                     icon={<DeleteIcon />}
-                    onClick={handleDelBtClick}
+                    onClick={onOpen}
                 ></IconButton>
+                <CustomAlertDialog
+                    title="投稿を削除しますか？"
+                    content="この操作は取り消すことができません"
+                    yesText="削除"
+                    noText="キャンセル"
+                    yesColor="red"
+                    dialogRef={dialogRef}
+                    isOpen={isOpen}
+                    onYes={handleDelBtClick}
+                    onClose={onClose}
+                />
             </>
         );
     }
