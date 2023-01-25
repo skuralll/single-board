@@ -8,12 +8,12 @@ export const Footer = () => {
                 justify="center"
                 mt={5}
                 mb={5}
-                color="gray.700"
+                color="gray.500"
                 fontSize="sm"
             >
                 <Text align="center" mt={0} mb={0}>
                     このページはReact.jsで構築され、Firebase
-                    Hostingによってホストされています
+                    Hostingによってホストされています。
                 </Text>
                 <Link
                     href="https://github.com/skuralll/single-board"
