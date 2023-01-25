@@ -11,17 +11,11 @@ import {
     VStack,
     Link,
     useToast,
-    AlertDialog,
-    AlertDialogBody,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogContent,
-    AlertDialogOverlay,
     useDisclosure,
 } from "@chakra-ui/react";
 import { DeleteIcon, StarIcon } from "@chakra-ui/icons";
 import reactStringReplace from "react-string-replace";
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useComments } from "../contexts/commentsContext";
 import { useAuth } from "../contexts/authContext";
 import { IComment } from "../models";
